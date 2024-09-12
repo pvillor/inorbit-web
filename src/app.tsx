@@ -1,23 +1,22 @@
-import logo from './assets/logo-in-orbit.svg'
-import letsStart from './assets/lets-start-illustration.svg'
-import { Plus } from 'lucide-react'
+import { Dialog } from './components/ui/dialog'
+import { CreateGoal } from './components/create-goal'
+import { Summary } from './components/summary'
+import { EmptyGoals } from './components/empty-goals'
+import { useQuery } from '@tanstack/react-query'
+import { getSummary } from './http/get-summary'
 
 export function App() {
-  return (
-    <div className="h-screen flex flex-col items-center justify-center gap-8">
-      <img src={logo} alt="in.orbit" />
-      <img src={letsStart} alt="in.orbit" />
-      <p className="text-zinc-300 leading-relaxed max-w-80 text-center">
-        Você ainda não cadastrou nenhuma meta, que tal cadastrar um agora mesmo?
-      </p>
+  const { data: summary } = useQuery({
+    queryKey: ['summary'],
+    queryFn: getSummary,
+  })
 
-      <button
-        type="button"
-        className="px-4 py-2.5 rounded-lg bg-violet-500 text-violet-50 flex items-center gap-2 text-sm font-medium tracking-tight hover:bg-violet-600"
-      >
-        <Plus className="size-4" />
-        Cadastrar meta
-      </button>
-    </div>
+  const isSummaryNotEmpty = summary?.total && summary.total > 0
+
+  return (
+    <Dialog>
+      {isSummaryNotEmpty ? <Summary /> : <EmptyGoals />}
+      <CreateGoal />
+    </Dialog>
   )
 }
