@@ -19,7 +19,7 @@ export function SignInWIthGithubCallback() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     authenticateFromGithub({ data: { code } }).then(response => {
-      const { token } = response.data
+      const { token } = response
 
       const cookies = new Cookies()
 
