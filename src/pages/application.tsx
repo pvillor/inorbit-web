@@ -1,11 +1,11 @@
-import { Dialog } from './components/ui/dialog'
-import { CreateGoal } from './components/create-goal'
-import { Summary } from './components/summary'
-import { EmptyGoals } from './components/empty-goals'
+import { Dialog } from '../components/ui/dialog'
+import { CreateGoal } from '../components/create-goal'
+import { Summary } from '../components/summary'
+import { EmptyGoals } from '../components/empty-goals'
 import { useQuery } from '@tanstack/react-query'
-import { getSummary } from './http/get-summary'
+import { getSummary } from '../http/get-summary'
 
-export function App() {
+export function Application() {
   const { data: summary } = useQuery({
     queryKey: ['summary'],
     queryFn: getSummary,
