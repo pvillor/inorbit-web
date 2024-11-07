@@ -1,12 +1,22 @@
 import { Dialog } from '../components/ui/dialog'
 import { CreateGoal } from '../components/create-goal'
 import { WeeklySummary } from '../components/summary'
-import { EmptyGoals } from '../components/empty-goals'
 import { useGetWeekSummary } from '../http/generated/api'
 import { Loader2 } from 'lucide-react'
+import { useSearchParams } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 export function Application() {
-  const { data, isLoading } = useGetWeekSummary()
+  const [searchParams] = useSearchParams()
+  const weekStartsAtParams = searchParams.get('week_starts_at')
+
+  const weekStartsAt = weekStartsAtParams
+    ? new Date(weekStartsAtParams)
+    : new Date()
+
+  const { data, isLoading } = useGetWeekSummary({
+    weekStartsAt: dayjs(weekStartsAt).startOf('week').toISOString(),
+  })
 
   if (isLoading || !data) {
     return (
@@ -16,15 +26,10 @@ export function Application() {
     )
   }
 
-  const isSummaryNotEmpty = data.summary?.total && data.summary.total > 0
-
   return (
     <Dialog>
-      {isSummaryNotEmpty ? (
-        <WeeklySummary summary={data.summary} />
-      ) : (
-        <EmptyGoals />
-      )}
+      <WeeklySummary summary={data.summary} />
+
       <CreateGoal />
     </Dialog>
   )
