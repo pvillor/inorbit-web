@@ -3,6 +3,7 @@ import { OutlineButton } from './ui/outline-button'
 import { useQueryClient } from '@tanstack/react-query'
 import {
   getGetPendingGoalsQueryKey,
+  getGetUserLevelAndExperienceQueryKey,
   getGetWeekSummaryQueryKey,
   useCreateCompletion,
   useGetPendingGoals,
@@ -24,6 +25,9 @@ export function PendingGoals() {
 
     queryClient.invalidateQueries({ queryKey: getGetWeekSummaryQueryKey() })
     queryClient.invalidateQueries({ queryKey: getGetPendingGoalsQueryKey() })
+    queryClient.invalidateQueries({
+      queryKey: getGetUserLevelAndExperienceQueryKey(),
+    })
   }
 
   return (
